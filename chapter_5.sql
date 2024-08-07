@@ -141,7 +141,7 @@ CREATE OR REPLACE FUNCTION _final_median(anyarray)
     OFFSET GREATEST(CEIL((SELECT c FROM cnt) / 2.0) - 1,0)  
   ) q2;
  $$
- LANGUAGE sql IMMUTABLE;
+LANGUAGE sql IMMUTABLE;
 
 CREATE AGGREGATE median(anyelement) (
   SFUNC=array_append,
@@ -149,6 +149,42 @@ CREATE AGGREGATE median(anyelement) (
   FINALFUNC=_final_median,
   INITCOND='{}'
 );
+
+--Working median function via ChatGPT--
+--* 5.14 Adjusted
+CREATE OR REPLACE FUNCTION _final_median(anyarray)
+RETURNS float8 AS
+$$
+WITH q AS (
+  SELECT unnest($1) AS val
+),
+sorted_q AS (
+  SELECT val
+  FROM q
+  WHERE val IS NOT NULL
+  ORDER BY val
+),
+cnt AS (
+  SELECT COUNT(*) AS c
+  FROM sorted_q
+)
+SELECT AVG(val)::float8
+FROM (
+  SELECT val
+  FROM sorted_q
+  OFFSET GREATEST((SELECT (c - 1) / 2 FROM cnt), 0)
+  FETCH FIRST (SELECT 1 + (1 - c % 2) FROM cnt) ROWS ONLY
+) sub;
+$$
+LANGUAGE SQL IMMUTABLE;
+
+CREATE AGGREGATE median(float8) (
+  SFUNC = array_append,
+  STYPE = float8[],
+  FINALFUNC = _final_median,
+  INITCOND = '{}'
+);
+-------------------------------------------------------------------------
 
 ---Employs deprecated Median function created in 5.14, therefore 5.15 does not execute---
 -- 5.15
