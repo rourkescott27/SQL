@@ -3,9 +3,9 @@ DROP TABLE char_data_types;
 -- 3.1
 
 CREATE TABLE char_data_types (
-	varchar_column varchar(10),
-	char_column char(10),
-	text_column text
+	varchar_column varchar(10), -- Variable length column specified by 'n', any additional space will not be stored.
+	char_column char(10), -- Fixed length column specified by 'n', any additional unused space will stored as white space.
+	text_column text -- Variable length column of unlimited length.
 );
 
 INSERT INTO
@@ -14,7 +14,7 @@ VALUES
 	('abc', 'abc', 'abc'),
 	('defghi', 'defghi', 'defghi');
 
-COPY char_data_types TO 'D:\SQL\typetest.txt'
+COPY char_data_types TO 'D:\SQL\typetest3.txt'
 WITH
 	(FORMAT CSV, HEADER, DELIMITER '|');
 
@@ -39,7 +39,7 @@ SELECT * FROM number_data_types;
 -- 3.3
 
 SELECT
-	numeric_column * 10000000 AS "Fixed",
+	numeric_column * 10000000 AS "Fixed", 
 	real_column * 10000000 AS "Float"
 FROM number_data_types
 WHERE numeric_column = .7;
@@ -48,8 +48,7 @@ WHERE numeric_column = .7;
 
 CREATE TABLE date_time_types (
 	timestamp_column timestamp with time zone,
-	interval_column interval
-);
+	interval_column interval -- 
 
 INSERT INTO date_time_types 
 VALUES 
@@ -65,7 +64,7 @@ SELECT * FROM date_time_types;
 SELECT
 	timestamp_column,
 	interval_column,
-	timestmp_column - interval_column AS new_date
+	timestamp_column - interval_column AS new_date
 FROM
 	date_time_types;
 

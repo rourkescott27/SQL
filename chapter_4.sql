@@ -114,10 +114,12 @@ FROM 'D:\SQL\chapter_4\us_counties_2010.csv'
 WITH (FORMAT CSV, HEADER);
 
 --* Testing LIMIT
- SELECT geo_name, state_us_abbreviation, internal_point_lon
- FROM us_counties_2010
- ORDER BY internal_point_lon DESC
- LIMIT 5;
+SELECT geo_name, state_us_abbreviation, internal_point_lon
+FROM us_counties_2010
+ORDER BY internal_point_lon DESC
+LIMIT 5;
+
+SELECT * FROM us_counties_2010;
 
 -- 4.4
 CREATE TABLE supervisor_salaries(
@@ -130,7 +132,7 @@ CREATE TABLE supervisor_salaries(
 );
 
 -- 4.5
-COPY supervisor_salaries (town, supervisor, salary)
+COPY supervisor_salaries (town, supervisor, salary) -- Importing a subset of columns if certain data is not available in certain cases
 FROM 'D:\SQL\chapter_4\supervisor_salaries.csv'
 WITH (FORMAT CSV, HEADER);
 
@@ -142,11 +144,11 @@ DELETE FROM supervisor_salaries;
 CREATE TEMPORARY TABLE supervisor_salaries_temp(LIKE supervisor_salaries);
 
 COPY supervisor_salaries_temp(town, supervisor, salary)
-FROM 'D:\SQL\chapter_4\supervisor_salaries.csv'
+FROM 'D:\SQL\external_data\supervisor_salaries.csv'
 WITH (FORMAT CSV, HEADER);
 
 INSERT INTO supervisor_salaries(town, county, supervisor, salary)
-SELECT town, 'Some County', supervisor, salary
+SELECT town, 'Some County', supervisor, salary -- Importing default values to fill the table temporarily 
 FROM supervisor_salaries_temp;
 
 DROP TABLE supervisor_salaries_temp;
