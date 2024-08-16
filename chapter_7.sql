@@ -18,6 +18,7 @@ CREATE TABLE natural_key_example (
 );
 
 -- 7.2
+-- Showing how the primary key prevents duplicate data inserts 
 INSERT INTO natural_key_example (license_id, first_name, last_name)
 VALUES ('T229901', 'Lynn', 'Malero');
 
@@ -25,6 +26,8 @@ INSERT INTO natural_key_example (license_id, first_name, last_name)
 VALUES ('T229901', 'Sam', 'Tracy');
 
 -- 7.3
+-- Creating composite keys if a single column does not meet your requirements for a primary key 
+--- Essentially 2 keys working together as one 
 CREATE TABLE natural_key_composite_example (
     student_id varchar(10),
     school_day date,
@@ -49,7 +52,7 @@ SELECT CURRENT_TIMESTAMP;
 -- 7.5
 --- Auto Incrementing surrogate key
 CREATE TABLE surrogate_key_example (
- 	order_number bigserial,
+ 	order_number bigserial, --*
     product_name varchar(50),
     order_date date,
  	CONSTRAINT order_key PRIMARY KEY (order_number)   
@@ -89,7 +92,7 @@ VALUES ('A203391', '2017/3/17', 'T229901');
 INSERT INTO registrations (registration_id, registration_date, license_id)
 VALUES ('A75772', '2017/3/17', 'T000001');
 
-SELECT * FROM registrations;
+SELECT * FROM registrations, licenses;
 
 -- 7.7
 --- CHECK Constriant
@@ -102,7 +105,6 @@ CREATE TABLE check_constraint_example (
  	CONSTRAINT check_salary_not_zero CHECK (salary > 0)
 );
 
-SELECT * FROM check_constraint_example;
 
 -- 7.8 
 --- UNIQUE Constraint
