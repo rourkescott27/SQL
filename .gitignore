@@ -1,3 +1,9 @@
 *.txt
 *.csv
 *.md
+*.cpg
+*.dbf
+*.prj
+*.shp
+*.xml
+*.shx
