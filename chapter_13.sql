@@ -131,7 +131,7 @@ SELECT crime_id,
        original_text
 FROM crime_reports;
 
--- SET datestyle = "ISO, MDY"; -- Changed date style 
+SET datestyle = "ISO, MDY"; -- Changed date style 
 
 -- 13.10
 --- Updating all crime_reports columns

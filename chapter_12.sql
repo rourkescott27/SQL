@@ -1,4 +1,9 @@
 -- Chapter 12 Exercises
+-- Subqueries
+-- Derived Tables
+-- CTE's
+-- Cross Tabulations
+-- Using CASE
 
 -- 12.1 
 --- Using a subquery in a WHERE clause
@@ -39,7 +44,7 @@ FROM (
                 WITHIN GROUP (ORDER BY p0010001)::numeric(10,1) AS median
      FROM us_counties_2010
      )
-AS calcs;
+AS calcs; -- Name of the subquery
 
 -- 12.4
 --- Joining two derived tables
@@ -69,6 +74,7 @@ ON plants.st = census.state_us_abbreviation
 ORDER BY plants_per_million DESC;
 
 -- 12.5
+--Generating a column with  subquery 
 ---  Adding a subquery to a column list
 ---- Adding the U.S. median population per county to the table via a subquery
 SELECT geo_name,
@@ -92,6 +98,8 @@ FROM us_counties_2010
 WHERE (p0010001 - (SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY p0010001)
                    FROM us_counties_2010))
 BETWEEN -1000 AND 1000;
+
+--*** EXISTS is a type of subquery and is a true/false test***---
 
 -- 12.7
 --- Using a simple CTE(Common Table Expression) to find large counties

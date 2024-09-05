@@ -11,6 +11,7 @@ SELECT postgis_full_version();
 
 -- 14.3
 --- Retrieving the WKT for SRID 4326
+---** Book **--- WKT is text that represents a geometry, plus an optional Spatial Reference System Identifier (SRID) that specifies the grid on which to place the objects
 SELECT srtext
 FROM spatial_ref_sys 
 WHERE srid = 4326;
@@ -110,7 +111,7 @@ WHERE longitude IS NOT NULL
 LIMIT 5;
 
 -- 14.11
---- Using ST_DWithin() to locate farmers’ markets within 10 kilometers of a point
+--- Using ST_DWithin() to locate farmers’ markets within 10 kilometers/miles of a point
 SELECT market_name,
        city,
        st

@@ -33,6 +33,8 @@ CREATE OR REPLACE VIEW county_pop_change_2010_2000 AS
        AND c2010.county_fips = c2000.county_fips
     ORDER BY c2010.state_fips, c2010.county_fips;
 
+SELECT * FROM county_pop_change_2010_2000;
+
 -- 15.4
 --- Showing the percentage change from the view created in 15.3
 SELECT geo_name,
